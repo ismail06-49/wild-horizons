@@ -1,0 +1,20 @@
+{
+  "name": "wild-horizons",
+  "version": "1.0.0",
+  "description": "a dataset of the planet's interesting places",
+  "homepage": "https://github.com/ismail06-49/wild-horizons#readme",
+  "bugs": {
+    "url": "https://github.com/ismail06-49/wild-horizons/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ismail06-49/wild-horizons.git"
+  },
+  "license": "ISC",
+  "author": "Ismail Haddad",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  }
+}

@@ -1,7 +1,8 @@
 import http from 'node:http';
 import { getDestinations } from './database/db.js';
 import { handleResponse } from './utils/handelResponse.js';
-import { getDataByPathParam } from './utils/getDataByPathParam.js';
+import { getDataByPathParams } from './utils/getDataByPathParams.js';
+import { getDataByQueryParams } from './utils/getDataByQueryParams.js';
 
 const PORT = 8000;
 
@@ -10,17 +11,19 @@ const server = http.createServer(async (req, res) => {
     const destinations = await getDestinations()
     const urlObj = new URL(req.url, `http://${req.headers.host}`)
     const queryObj = Object.fromEntries(urlObj.searchParams)
-    console.log(queryObj)
 
-    if (req.url === '/api' && req.method === 'GET') {
-        handleResponse(res, 200, destinations)
+    if (urlObj.pathname === '/api' && req.method === 'GET') {
+        let filteredData = getDataByQueryParams(destinations, queryObj)
+
+        handleResponse(res, 200, filteredData)
+        console.log(queryObj)
     } else if (req.url.startsWith('/api/continent') && req.method === 'GET') {
         const continent = req.url.split('/').pop()
-        const filteredData = getDataByPathParam(destinations,'continent', continent )
+        const filteredData = getDataByPathParams(destinations,'continent', continent )
         handleResponse(res, 200, filteredData)
     } else if (req.url.startsWith('/api/country') && req.method === 'GET') {
         const country = req.url.split('/').pop()
-        const filteredData = getDataByPathParam(destinations,'country', country )
+        const filteredData = getDataByPathParams(destinations,'country', country )
         handleResponse(res, 200, filteredData)
     } else {
         handleResponse(res, 404, {
